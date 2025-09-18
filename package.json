@@ -3,9 +3,11 @@
   "private": true,
   "version": "1.2.6",
   "type": "module",
+  "homepage": "https://snehabharti04.github.io",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "predeploy": "npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "gh-pages -d ./dist"

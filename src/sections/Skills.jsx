@@ -2,9 +2,15 @@ import { LinearGradient } from "react-text-gradients";
 import { motion } from "framer-motion";
 import { skillCategories, tabCategories } from "../constants/data";
 import { useState } from "react";
+import { useTheme } from "../components/ThemeContext";
 
 const Skills = () => {
   const [activeTab, setActiveTab] = useState("all");
+  const { theme } = useTheme();
+
+  const isLight = theme === "light";
+  const lightCardColor = "rgb(208, 201, 201)";
+  const darkCardColor = "#32303a";
 
   // Get skills based on active tab
   const getSkillsToShow = () => {
@@ -12,7 +18,7 @@ const Skills = () => {
       return [
         ...skillCategories.frontend,
         ...skillCategories.backend,
-        ...skillCategories.others
+        ...skillCategories.others,
       ];
     }
     return skillCategories[activeTab] || [];
@@ -21,7 +27,6 @@ const Skills = () => {
   const skillsToShow = getSkillsToShow();
 
   return (
-    <>
       <section className="w-full flex justify-center px-4 py-10" id="skills">
         <div className="flex flex-col w-full max-w-7xl items-center justify-start">
           <div className="w-full">
@@ -53,6 +58,8 @@ const Skills = () => {
                 className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 ${
                   activeTab === tab.id
                     ? "bg-gradient-to-r from-[#374151] to-[#f59e0b] text-white shadow-lg"
+                    : isLight
+                    ? "bg-[rgb(208,201,201)] text-gray-800 hover:bg-yellow-200"
                     : "bg-[#32303a] text-gray-300 hover:bg-[#3a3840] hover:text-white"
                 }`}
                 whileHover={{ scale: 1.05 }}
@@ -88,7 +95,10 @@ const Skills = () => {
                 }}
               >
                 <div className="bg-gradient-to-br from-[#374151] to-[#f59e0b] p-[1px] rounded-xl">
-                  <div className="bg-[#32303a] rounded-xl p-4 h-full flex flex-col items-center justify-center min-h-[100px] gap-2">
+                  <div className="bg-[#32303a] rounded-xl p-4 h-full flex flex-col items-center justify-center min-h-[100px] gap-2"
+                    style={{
+                      backgroundColor: isLight ? lightCardColor : darkCardColor,
+                    }}>
                     {/* Skill Icon */}
                     <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
                       <img 
@@ -102,7 +112,11 @@ const Skills = () => {
                       />
                     </div>
                     {/* Skill Name */}
-                    <span className="text-white text-xs sm:text-sm font-medium text-center">
+                    <span
+                      className={`text-xs sm:text-sm font-medium text-center ${
+                        isLight ? "text-black" : "text-white"
+                      }`}
+                    >
                       {skill.name}
                     </span>
                   </div>
@@ -115,7 +129,7 @@ const Skills = () => {
           </motion.div>
 
           {/* Skills count indicator */}
-          <motion.p 
+          <motion.p
             className="text-gray-400 text-sm mt-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -125,7 +139,6 @@ const Skills = () => {
           </motion.p>
         </div>
       </section>
-    </>
   );
 };
 

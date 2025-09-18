@@ -2,9 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { LinearGradient } from "react-text-gradients";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
+import { useTheme } from "../components/ThemeContext";
 
-const SERVICE_ID = import.meta.
-env.VITE_EMAILJS_SERVICE_ID;
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 const TO_NAME = import.meta.env.VITE_EMAILJS_TO_NAME;
@@ -14,21 +14,18 @@ const Contact = () => {
   const formRef = useRef();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-
+  const { theme } = useTheme();
+  const sectionBgClass = theme === "light" ? "bg-white" : "bg-[#1e1e1e]";
+  const textColorClass = theme === "light" ? "text-black" : "text-white";
 
   useEffect(() => {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-    console.log("Public Key useffect : ", PUBLIC_KEY);
-
   }, []);
-
-  console.log("Public Key: ", PUBLIC_KEY);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +55,7 @@ const Contact = () => {
         },
         (error) => {
           setLoading(false);
-          console.log("Errro is : ",error);
+          console.log("Errro is : ", error);
           alert("Something went wrong!");
         }
       );
@@ -68,6 +65,7 @@ const Contact = () => {
     <section className="w-full flex justify-center mb-20 px-4" id="contact">
       <motion.div
         className="flex flex-col w-full max-w-7xl items-center justify-start"
+        style={{ backgroundColor: sectionBgClass }}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -87,7 +85,12 @@ const Contact = () => {
           </motion.h2>
         </div>
 
-        <div className="flex w-full max-w-lg bg-[#32303a] sm:p-8 p-6 rounded-xl text-white">
+        <div
+          className={`flex w-full max-w-lg sm:p-8 p-6 rounded-xl ${
+            theme === "light" ? "text-black" : "text-white"
+          }`}
+          style={theme === "light" ? { backgroundColor: "rgb(208, 201, 201)" } : { backgroundColor: "#32303a" }}
+        >
           <form
             ref={formRef}
             onSubmit={handleSubmit}
@@ -101,7 +104,7 @@ const Contact = () => {
                 value={form.name}
                 onChange={handleChange}
                 required
-                className="py-3 px-4 bg-[#46454d] rounded-lg"
+                className={`py-3 px-4 ${textColorClass} rounded-lg`}
                 placeholder="ex. Sneha Bharti"
               />
             </label>
@@ -114,7 +117,7 @@ const Contact = () => {
                 value={form.email}
                 onChange={handleChange}
                 required
-                className="py-3 px-4 bg-[#46454d] rounded-lg"
+                className={`py-3 px-4 ${textColorClass} rounded-lg`}
                 placeholder="ex. sneha@gmail.com"
               />
             </label>
@@ -127,14 +130,17 @@ const Contact = () => {
                 onChange={handleChange}
                 required
                 rows={5}
-                className="py-3 px-4 bg-[#46454d] rounded-lg resize-none"
+                className={`py-3 px-4 ${textColorClass} rounded-lg  resize-none`}
                 placeholder="Share your thoughts..."
               />
             </label>
 
             <motion.button
               type="submit"
-              className="bg-[#374151] text-black w-full sm:w-fit py-3 px-6 rounded-lg font-bold outline-none self-center sm:self-start"
+              style={{ backgroundColor: "#374151", color: "#fff" }}
+              className={`text-white px-4 py-2 text-sm font-medium rounded-md hover:bg-[#e6891f] rounded-lg font-bold self-center sm:self-start cursor-pointer ${
+                theme === "light" ? "bg-yellow-400 text-black" : "bg-[#374151] text-white"
+              }`}              
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >

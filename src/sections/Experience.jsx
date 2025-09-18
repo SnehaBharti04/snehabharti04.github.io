@@ -14,8 +14,8 @@ const ExperienceCard = ({ experience }) => {
 
   const cardStyle =
     theme === "light"
-      ? { background: "#fff", color: "#000" }
-      : { background: "#32303a", color: "#fff" };
+    ? { background: "rgb(208, 201, 201)", color: "#000" }
+      : { background: "#32303a", color: "#555555" };
 
   const arrowStyle =
     theme === "light"

@@ -5,16 +5,31 @@ import { useTheme } from "./ThemeContext";
 
 const ProjectCard = ({ project }) => {
   const { theme } = useTheme();
-  const cardBgClass =
-    theme === "light"
-      ? "bg-white text-black shadow-md"
-      : "bg-[#32303a] text-white shadow-2xl";
 
-  const textColorClass = theme === "light" ? "text-black" : "text-white";
+
+  const cardColor = "rgb(208, 201, 201)";
+  const lightBorderColor = "rgb(180, 180, 180)";
+
+  let cardStyle =
+    theme === "light"
+      ? {
+          backgroundColor: cardColor,
+          color: "#333",
+          border: `1.5px solid ${lightBorderColor}`,
+        }
+      : {
+          backgroundColor: "#32303a",
+          color: "#fff",
+          border: "none",
+        };
+
+
+const textColorClass = theme === "light" ? "text-gray-800" : "text-white";
 
   return (
     <motion.div
-      className={`w-[280px] sm:w-[350px] md:w-[450px] lg:w-[500px] flex flex-col gap-5 relative rounded-lg sm:p-7 py-5 px-5 ${cardBgClass} transition-all duration-200 select-none`}
+    style={cardStyle}
+      className={`w-[280px] sm:w-[350px] md:w-[450px] lg:w-[500px] flex flex-col gap-5 relative rounded-lg sm:p-7 py-5 px-5 transition-all duration-200 select-none`}
     >
       <div
         className="absolute -top-12 md:-top-24 left-1/2 transform -translate-x-1/2 w-[230px] sm:w-[290px] md:w-[370px] lg:w-[420px] rounded-xl overflow-hidden shadow-xl z-20"
@@ -69,7 +84,7 @@ const ProjectCard = ({ project }) => {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
-              <p className="text-xs md:text-base">GitHub</p>
+              <p className={`${textColorClass} text-xs md:text-base`}>GitHub</p>
               <FaGithub className="w-4 h-4" />
             </motion.a>
           )}
@@ -84,7 +99,7 @@ const ProjectCard = ({ project }) => {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
-              <p className="text-xs md:text-base">Demo</p>
+              <p className={`${textColorClass} text-xs md:text-base`}>Demo</p>
               <img src="arrow-up.png" alt="arrow" className="w-3 h-3" />
             </motion.a>
           </div>
